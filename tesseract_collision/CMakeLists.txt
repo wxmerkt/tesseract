@@ -16,12 +16,12 @@ find_package(Eigen3 REQUIRED)
 find_package(Boost COMPONENTS system thread REQUIRED)
 find_package(octomap REQUIRED)
 find_package(PkgConfig REQUIRED)
-find_package(ccd REQUIRED)
+# find_package(ccd REQUIRED)
 
-pkg_check_modules(LIBFCL REQUIRED fcl)
-find_library(LIBFCL_LIBRARIES_FULL ${LIBFCL_LIBRARIES} ${LIBFCL_LIBRARY_DIRS})
-set(LIBFCL_LIBRARIES "${LIBFCL_LIBRARIES_FULL}")
-list(APPEND LIBFCL_LIBRARIES ${CCD_LIBRARIES})
+# pkg_check_modules(LIBFCL REQUIRED fcl)
+# find_library(LIBFCL_LIBRARIES_FULL ${LIBFCL_LIBRARIES} ${LIBFCL_LIBRARY_DIRS})
+# set(LIBFCL_LIBRARIES "${LIBFCL_LIBRARIES_FULL}")
+# list(APPEND LIBFCL_LIBRARIES ${CCD_LIBRARIES})
 
 catkin_package(
   INCLUDE_DIRS
@@ -31,7 +31,7 @@ catkin_package(
     ${EIGEN3_INCLUDE_DIRS}
   LIBRARIES
     ${PROJECT_NAME}_bullet
-    ${PROJECT_NAME}_fcl
+    # ${PROJECT_NAME}_fcl
     ${OCTOMAP_LIBRARIES}
     ${LIBFCL_LIBRARIES}
   CATKIN_DEPENDS
@@ -72,24 +72,25 @@ add_library(${PROJECT_NAME}_bullet_plugin src/bullet/bullet_plugin.cpp)
 target_link_libraries(${PROJECT_NAME}_bullet_plugin ${PROJECT_NAME}_bullet ${catkin_LIBRARIES})
 target_compile_options(${PROJECT_NAME}_bullet_plugin PRIVATE -Wsuggest-override -Wconversion -Wsign-conversion)
 
-add_library(${PROJECT_NAME}_fcl
-  src/fcl/fcl_discrete_managers.cpp
-  src/fcl/fcl_utils.cpp
-)
+# add_library(${PROJECT_NAME}_fcl
+#   src/fcl/fcl_discrete_managers.cpp
+#   src/fcl/fcl_utils.cpp
+# )
 
-target_link_libraries(${PROJECT_NAME}_fcl ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OCTOMAP_LIBRARIES} ${LIBFCL_LIBRARIES})
-target_compile_options(${PROJECT_NAME}_fcl PRIVATE -Wsuggest-override -Wconversion -Wsign-conversion)
+# target_link_libraries(${PROJECT_NAME}_fcl ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OCTOMAP_LIBRARIES} ${LIBFCL_LIBRARIES})
+# target_compile_options(${PROJECT_NAME}_fcl PRIVATE -Wsuggest-override -Wconversion -Wsign-conversion)
 
-add_library(${PROJECT_NAME}_fcl_plugin src/fcl/fcl_plugin.cpp)
-target_link_libraries(${PROJECT_NAME}_fcl_plugin ${PROJECT_NAME}_fcl ${catkin_LIBRARIES})
-target_compile_options(${PROJECT_NAME}_fcl_plugin PRIVATE -Wsuggest-override -Wconversion -Wsign-conversion)
+# add_library(${PROJECT_NAME}_fcl_plugin src/fcl/fcl_plugin.cpp)
+# target_link_libraries(${PROJECT_NAME}_fcl_plugin ${PROJECT_NAME}_fcl ${catkin_LIBRARIES})
+# target_compile_options(${PROJECT_NAME}_fcl_plugin PRIVATE -Wsuggest-override -Wconversion -Wsign-conversion)
 
 add_executable(create_convex_hull src/create_convex_hull.cpp)
 target_link_libraries(create_convex_hull ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OCTOMAP_LIBRARIES})
 target_compile_options(create_convex_hull PRIVATE -Wsuggest-override -Wconversion -Wsign-conversion)
 
 # Mark executables and/or libraries for installation
-install(TARGETS ${PROJECT_NAME}_bullet ${PROJECT_NAME}_fcl ${PROJECT_NAME}_bullet_plugin ${PROJECT_NAME}_fcl_plugin create_convex_hull
+# install(TARGETS ${PROJECT_NAME}_bullet ${PROJECT_NAME}_fcl ${PROJECT_NAME}_bullet_plugin ${PROJECT_NAME}_fcl_plugin create_convex_hull
+install(TARGETS ${PROJECT_NAME}_bullet ${PROJECT_NAME}_bullet_plugin create_convex_hull
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
