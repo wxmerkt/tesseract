@@ -417,6 +417,16 @@ inline btScalar addCastSingleResult(btManifoldPoint& cp,
     return 0;
   }
 
+  if(((cd0->m_collisionFilterGroup == btBroadphaseProxy::KinematicFilter) &&
+           (cd1->m_collisionFilterGroup == btBroadphaseProxy::KinematicFilter)))
+           {
+             std::cerr << "Yikes! " << cd0->getName() << " vs " << cd1->getName() << std::endl;
+           }
+           else
+           {
+             std::cerr << "OK! " << cd0->getName() << " vs " << cd1->getName() << std::endl;
+           }
+
   assert(!((cd0->m_collisionFilterGroup == btBroadphaseProxy::KinematicFilter) &&
            (cd1->m_collisionFilterGroup == btBroadphaseProxy::KinematicFilter)));
   bool castShapeIsFirst = (cd0->m_collisionFilterGroup == btBroadphaseProxy::KinematicFilter) ? true : false;
